@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh "echo 'Building..'"
-                sh "docker-compose up -d docker-compose.yml"
+                sh "docker-compose up -d docker-compose.yaml"
             }
         }
     }
