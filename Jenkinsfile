@@ -10,7 +10,6 @@ pipeline {
             steps {
                 sh "echo 'Building.. and push to Docker Hub'"
                 // sh "docker-compose up -d"
-                sh "cd app"
                 sh "docker build -t khanhkieu167/fastapi-sample:latest -f app/Dockerfile ."
                 sh "docker login -u khanhkieu167 -p dckr_pat_qVsUDqy20ERNtoXUnX2WdiPGN2Q"
                 sh "docker push khanhkieu167/fastapi-sample:latest"
