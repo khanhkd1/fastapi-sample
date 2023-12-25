@@ -10,7 +10,7 @@ mysql_host = os.environ.get('MYSQL_HOST')
 mysql_db = os.environ.get('MYSQL_DATABASE')
 
 engine = create_engine(
-    f"mysql+pymysql://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_db}"
+    f"postgresql+psycopg2://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_db}"
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
