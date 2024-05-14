@@ -1,20 +1,42 @@
 version: "3.8"
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
   api:
     build:
-      context: ./app
+      context: ./app  
     volumes:
       - ./app/:/app/
     ports:
       - "8000:8000"
+    restart: always
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     environment:
-      MYSQL_USER: jlorxvrmqbgxrm
-      MYSQL_PASSWORD: 55cb27765e7844b835a4e8eb4d718db7a876fe25e7c5b3345bb9dfde807e0b58
-      MYSQL_HOST: ec2-54-164-138-85.compute-1.amazonaws.com:5432
-      MYSQL_DATABASE: dalsgrvh02hklp
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_HOST: db
+      MYSQL_DATABASE: mydatabase
+      MYSQL_PORT: 5432
     healthcheck:
       test: "curl -f http://localhost:8000/ || exit 1"
       timeout: 45s
       interval: 5s
       retries: 20
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
